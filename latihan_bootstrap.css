@@ -1,0 +1,229 @@
+/* =========================
+            GENERAL
+   ========================= */
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    padding-top: 56px;
+}
+
+
+/* =========================
+            NAVBAR
+   ========================= */
+
+.navbar-brand {
+    letter-spacing: 1px;
+    color: #070707 !important;
+}
+
+.navbar.bg-dark {
+    background-color: #eb8c94 !important;
+}
+
+.nav-link {
+    transition: 0.3s;
+    color: #000000 !important;
+}
+
+.nav-link:hover {
+    color: #fcfcfc !important;
+}
+
+
+/* =========================
+            HOME
+   ========================= */
+
+.home-section {
+    min-height: 100vh;
+
+    background-color: #ffffff;
+
+    border-bottom: 1px solid #f3c5ce;
+}
+
+.profile-image {
+    width: 330px;
+    height: 330px;
+
+    object-fit: cover;
+
+    border: 8px solid #ffffff;
+}
+
+/* =========================
+            HOME
+   ========================= */
+
+.home-section .text-primary {
+    color: #d63384 !important;
+}
+
+.home-section .btn-primary {
+    background-color: #d63384 !important;
+    border-color: #d63384 !important;
+    color: white !important;
+}
+
+.home-section .btn-primary:hover {
+    background-color: #c22575 !important;
+    border-color: #c22575 !important;
+}
+
+.home-section .btn-outline-primary {
+    color: #d63384 !important;
+    border-color: #d63384 !important;
+}
+
+.home-section .btn-outline-primary:hover {
+    background-color: #d63384 !important;
+    border-color: #d63384 !important;
+    color: white !important;
+}
+
+/* =========================
+            ABOUT
+   ========================= */
+
+.about-section {
+    min-height: 500px;
+
+    background-color: #fff0f4;
+
+    border-top: 1px solid #f3c5ce;
+    border-bottom: 1px solid #f3c5ce;
+}
+
+
+/* =========================
+     SKILLS / EXPERTISE
+   ========================= */
+
+.skills-section {
+    min-height: 450px;
+
+    background-color: #ffffff;
+
+    border-top: 1px solid #f8dce2;
+    border-bottom: 1px solid #f8dce2;
+}
+
+
+/* =========================
+            PROJECTS
+   ========================= */
+
+.projects-section {
+    min-height: 500px;
+
+    background-color: #fff7f8;
+
+    border-top: 1px solid #f3c5ce;
+    border-bottom: 1px solid #f3c5ce;
+}
+
+.project-image {
+    width: 100%;
+    height: 220px;
+
+    object-fit: cover;
+}
+
+
+/* =========================
+            CARD
+   ========================= */
+
+.card {
+    transition: 0.3s;
+
+    border-color: #f3d3da !important;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+
+    box-shadow: 0 10px 25px rgba(235, 140, 148, 0.18) !important;
+}
+
+
+/* =========================
+            CONTACT
+   ========================= */
+
+.contact-section {
+    min-height: 500px;
+
+    background-color: #fbe4e8;
+
+    border-top: 1px solid #efb9c4;
+    border-bottom: 1px solid #efb9c4;
+}
+
+.contact-section .card {
+    background-color: #ffffff;
+}
+
+
+/* =========================
+            FOOTER
+   ========================= */
+
+footer.bg-dark.text-white {
+    background-color: #eb8c94 !important;
+}
+
+footer.bg-dark.text-white,
+footer.bg-dark.text-white p {
+    color: #000000 !important;
+}
+
+footer.bg-dark.text-white a,
+footer.bg-dark.text-white a.text-white {
+    color: #000000 !important;
+    text-decoration: none;
+}
+
+footer.bg-dark.text-white a:hover {
+    color: #ffffff !important;
+    opacity: 0.7;
+}
+
+/* =========================
+        RESPONSIVE
+   ========================= */
+
+@media (max-width: 991px) {
+
+    .home-section {
+        text-align: center;
+    }
+
+    .home-section .d-flex {
+        justify-content: center;
+    }
+
+    .profile-image {
+        width: 280px;
+        height: 280px;
+    }
+
+}
+
+
+@media (max-width: 576px) {
+
+    .profile-image {
+        width: 220px;
+        height: 220px;
+    }
+
+    .home-section h1 {
+        font-size: 2.5rem;
+    }
+
+}
