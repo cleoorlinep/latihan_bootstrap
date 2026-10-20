@@ -1,5 +1,5 @@
 /* =========================
-            GENERAL
+          GENERAL
    ========================= */
 
 html {
@@ -10,9 +10,17 @@ body {
     padding-top: 56px;
 }
 
+img {
+    max-width: 100%;
+}
+
+section[id] {
+    scroll-margin-top: 76px;
+}
+
 
 /* =========================
-            NAVBAR
+          NAVBAR
    ========================= */
 
 .navbar-brand {
@@ -33,6 +41,11 @@ body {
     color: #fcfcfc !important;
 }
 
+.navbar .nav-link.active {
+    color: #ffffff !important;
+    font-weight: 600;
+}
+
 
 /* =========================
             HOME
@@ -40,24 +53,16 @@ body {
 
 .home-section {
     min-height: 100vh;
-
     background-color: #ffffff;
-
     border-bottom: 1px solid #f3c5ce;
 }
 
 .profile-image {
     width: 330px;
     height: 330px;
-
     object-fit: cover;
-
     border: 8px solid #ffffff;
 }
-
-/* =========================
-            HOME
-   ========================= */
 
 .home-section .text-primary {
     color: #d63384 !important;
@@ -66,12 +71,13 @@ body {
 .home-section .btn-primary {
     background-color: #d63384 !important;
     border-color: #d63384 !important;
-    color: white !important;
+    color: #ffffff !important;
 }
 
 .home-section .btn-primary:hover {
     background-color: #c22575 !important;
     border-color: #c22575 !important;
+    color: #ffffff !important;
 }
 
 .home-section .btn-outline-primary {
@@ -82,8 +88,9 @@ body {
 .home-section .btn-outline-primary:hover {
     background-color: #d63384 !important;
     border-color: #d63384 !important;
-    color: white !important;
+    color: #ffffff !important;
 }
+
 
 /* =========================
             ABOUT
@@ -91,81 +98,71 @@ body {
 
 .about-section {
     min-height: 500px;
-
     background-color: #fff0f4;
-
     border-top: 1px solid #f3c5ce;
     border-bottom: 1px solid #f3c5ce;
 }
 
 
 /* =========================
-     SKILLS / EXPERTISE
+       SKILLS / EXPERTISE
    ========================= */
 
 .skills-section {
     min-height: 450px;
-
     background-color: #ffffff;
-
     border-top: 1px solid #f8dce2;
     border-bottom: 1px solid #f8dce2;
 }
 
 
 /* =========================
-            PROJECTS
+           PROJECTS
    ========================= */
 
 .projects-section {
     min-height: 500px;
-
     background-color: #fff7f8;
-
     border-top: 1px solid #f3c5ce;
     border-bottom: 1px solid #f3c5ce;
 }
 
 .project-image {
     width: 100%;
-    height: 220px;
-
+    height: 240px;
     object-fit: cover;
 }
 
 
 /* =========================
-            CARD
+             CARD
    ========================= */
 
 .card {
     transition: 0.3s;
-
     border-color: #f3d3da !important;
 }
 
 .card:hover {
     transform: translateY(-5px);
-
     box-shadow: 0 10px 25px rgba(235, 140, 148, 0.18) !important;
 }
 
 
 /* =========================
-            CONTACT
+           CONTACT
    ========================= */
 
 .contact-section {
     min-height: 500px;
-
     background-color: #fbe4e8;
-
     border-top: 1px solid #efb9c4;
     border-bottom: 1px solid #efb9c4;
 }
 
 .contact-section .card {
     background-color: #ffffff;
+    border-color: #f3d3da !important;
 }
 
 
@@ -193,11 +190,313 @@ footer.bg-dark.text-white a:hover {
     opacity: 0.7;
 }
 
+.social-links a {
+    display: inline-block;
+    transition: 0.3s;
+}
+
+.social-links a:hover {
+    transform: translateY(-3px);
+}
+
+
 /* =========================
-        RESPONSIVE
+        GRAFIK CHART.JS
    ========================= */
 
-@media (max-width: 991px) {
+.chart-wrapper {
+    position: relative;
+    width: 100%;
+    height: 320px;
+}
+
+
+/* =========================
+      CAROUSEL PROJECTS
+      MANUAL, 0.1 DETIK
+   ========================= */
+
+.projects-carousel-shell {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    max-width: 760px;
+    margin: 0 auto;
+}
+
+.projects-viewport {
+    flex: 1 1 auto;
+    min-width: 0;
+    overflow: hidden;
+}
+
+.projects-track {
+    display: flex;
+    align-items: stretch;
+    gap: 0;
+    width: 100%;
+    transform: translateX(0);
+    transition: transform 0.1s ease-in-out;
+    will-change: transform;
+}
+
+.project-slide {
+    display: flex;
+    flex: 0 0 100%;
+    width: 100%;
+    min-width: 0;
+    justify-content: center;
+}
+
+.project-slide .card {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 640px;
+    height: 100%;
+}
+
+.project-slide .card-body {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    flex-grow: 1;
+}
+
+.project-slide .card-text {
+    flex-grow: 1;
+}
+
+
+/* =========================
+       TOMBOL PANAH KIRI
+   ========================= */
+
+.project-prev-btn,
+.project-next-btn {
+    display: flex;
+    flex: 0 0 auto;
+    align-items: center;
+    justify-content: center;
+
+    width: 44px;
+    height: 44px;
+
+    border: 1px solid #eb8c94;
+    border-radius: 50%;
+
+    background-color: #ffffff;
+    color: #d63384;
+
+    font-size: 1.2rem;
+    cursor: pointer;
+
+    transition:
+        background-color 0.25s ease,
+        color 0.25s ease,
+        transform 0.25s ease;
+}
+
+.project-prev-btn[hidden] {
+    display: none !important;
+}
+
+.project-prev-btn:hover:not(:disabled),
+.project-next-btn:hover:not(:disabled) {
+    background-color: #d63384;
+    border-color: #d63384;
+    color: #ffffff;
+    transform: scale(1.06);
+}
+
+.project-prev-btn:disabled,
+.project-next-btn:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+}
+
+.project-prev-btn:focus-visible,
+.project-next-btn:focus-visible {
+    outline: 3px solid rgba(214, 51, 132, 0.25);
+    outline-offset: 3px;
+}
+
+
+.project-placeholder {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 0.75rem;
+
+    width: 100%;
+    height: 240px;
+
+    background: linear-gradient(
+        135deg,
+        #fff0f4,
+        #fbe4e8
+    );
+
+    color: #d63384;
+}
+
+.project-placeholder i {
+    font-size: 3.5rem;
+}
+
+.project-placeholder span {
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+}
+
+.project-detail-placeholder {
+    height: 260px;
+    border: 1px solid #f3d3da;
+    border-radius: 12px;
+}
+
+
+/* =========================
+         MODAL PROJECT
+   ========================= */
+
+.modal-content {
+    border: 1px solid #f3d3da;
+    border-radius: 16px;
+    overflow: hidden;
+}
+
+.modal-header {
+    align-items: flex-start;
+    gap: 16px;
+    padding: 1.5rem;
+    background-color: #fff0f4;
+    border-bottom: 1px solid #f3d3da;
+}
+
+.modal-title {
+    color: #252525;
+}
+
+.modal-footer {
+    padding: 1rem 1.5rem;
+    background-color: #fff7f8;
+    border-top: 1px solid #f3d3da;
+}
+
+.modal-body {
+    color: #444444;
+    line-height: 1.8;
+}
+
+.modal-body section p,
+.modal-body section li {
+    color: #555555;
+}
+
+.project-detail-image {
+    display: block;
+    width: 100%;
+    max-height: 380px;
+    object-fit: contain;
+    border: 1px solid #f3d3da;
+    background-color: #fff7f8;
+}
+
+.project-detail-heading {
+    margin-bottom: 0.85rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid #f3c5ce;
+    color: #d63384;
+    font-weight: 700;
+}
+
+
+/* =========================
+       FITUR PROJECT
+   ========================= */
+
+.project-feature {
+    height: 100%;
+    padding: 1.25rem;
+    border: 1px solid #f3d3da;
+    border-radius: 12px;
+    background-color: #fff7f8;
+}
+
+.project-feature i {
+    display: inline-block;
+    margin-bottom: 0.75rem;
+    color: #d63384;
+    font-size: 1.8rem;
+}
+
+.project-feature h6 {
+    color: #292929;
+    font-weight: 700;
+}
+
+.project-feature p {
+    color: #6c757d;
+    font-size: 0.95rem;
+    line-height: 1.7;
+}
+
+
+/* =========================
+       ALUR KERJA PROJECT
+   ========================= */
+
+.project-workflow {
+    display: grid;
+    gap: 1rem;
+}
+
+.workflow-step {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    padding: 1rem;
+
+    border-left: 3px solid #eb8c94;
+    border-radius: 0 10px 10px 0;
+    background-color: #fff7f8;
+}
+
+.workflow-step > span {
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+
+    width: 40px;
+    height: 40px;
+
+    border-radius: 50%;
+    background-color: #eb8c94;
+    color: #000000;
+    font-weight: 700;
+}
+
+.workflow-step h6 {
+    margin-bottom: 0.25rem;
+    font-weight: 700;
+}
+
+.workflow-step p {
+    margin-bottom: 0;
+    color: #6c757d;
+}
+
+
+/* =========================
+   TABLET DAN LAPTOP KECIL
+   ========================= */
+
+@media (max-width: 991.98px) {
 
     .home-section {
         text-align: center;
@@ -211,11 +510,42 @@ footer.bg-dark.text-white a:hover {
         width: 280px;
         height: 280px;
     }
-
 }
 
 
-@media (max-width: 576px) {
+/* =========================
+         TABLET DAN HP
+   ========================= */
+
+@media (max-width: 767.98px) {
+
+    .home-section h1 {
+        font-size: 2.2rem;
+        overflow-wrap: anywhere;
+    }
+
+    .about-section h2,
+    .skills-section h2,
+    .projects-section h2,
+    .contact-section h2 {
+        font-size: 2rem;
+    }
+
+    .chart-wrapper {
+        height: 280px;
+    }
+
+    .modal-body {
+        padding: 1.25rem !important;
+    }
+}
+
+
+/* =========================
+           KHUSUS HP
+   ========================= */
+
+@media (max-width: 575.98px) {
 
     .profile-image {
         width: 220px;
@@ -223,7 +553,79 @@ footer.bg-dark.text-white a:hover {
     }
 
     .home-section h1 {
-        font-size: 2.5rem;
+        font-size: 1.8rem;
     }
 
+    .home-section .d-flex {
+        width: 100%;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .home-section .btn {
+        width: 100%;
+        max-width: 230px;
+        padding: 0.45rem 1rem;
+        font-size: 0.95rem;
+    }
+
+    .project-image,
+    .project-placeholder {
+        height: 180px;
+    }
+
+    .project-prev-btn,
+    .project-next-btn {
+        width: 36px;
+        height: 36px;
+        font-size: 1rem;
+    }
+
+    .projects-carousel-shell {
+        gap: 8px;
+    }
+
+    .project-detail-placeholder {
+        height: 200px;
+    }
+
+    .contact-section .card-body {
+        padding: 1.25rem !important;
+    }
+
+    .chart-wrapper {
+        height: 250px;
+    }
+
+    .modal-dialog {
+        margin: 0.5rem;
+    }
+
+    .modal-header {
+        padding: 1rem;
+    }
+
+    .modal-body {
+        padding: 1rem !important;
+        font-size: 0.95rem;
+    }
+
+    .project-detail-image {
+        max-height: 240px;
+    }
+
+    .project-feature {
+        padding: 1rem;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+    html {
+        scroll-behavior: auto;
+    }
+
+    .projects-track {
+        transition: none;
+    }
 }
