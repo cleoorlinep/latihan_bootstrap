@@ -138,9 +138,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 
-    // ============================================
-    // BAGIAN 2: GRAFIK CHART.JS
-    // ============================================
+
+    // ==================================================
+    // BAGIAN 2: GRAFIK CHART.JS REALTIME DARI DATABASE
+    // ==================================================
 
     const chartCanvas =
         document.getElementById("expertiseChart");
@@ -150,25 +151,18 @@ document.addEventListener("DOMContentLoaded", function () {
         typeof window.Chart !== "undefined"
     ) {
 
-        const expertiseData = [85, 78, 90, 82];
         const expertiseChart = new window.Chart(
             chartCanvas,
             {
                 type: "bar",
 
                 data: {
-
-                    labels: [
-                        "Data Analysis",
-                        "ICT",
-                        "Problem Solving",
-                        "Technology"
-                    ],
+                    labels: [],
 
                     datasets: [{
                         label: "Expertise Score",
 
-                        data: [0, 0, 0, 0],
+                        data: [],
 
                         backgroundColor: [
                             "rgba(235, 140, 148, 0.85)",
@@ -181,31 +175,25 @@ document.addEventListener("DOMContentLoaded", function () {
                         borderWidth: 1,
                         borderRadius: 6
                     }]
-
                 },
 
                 options: {
-
                     responsive: true,
                     maintainAspectRatio: false,
 
                     animation: {
-                        duration: 1400,
+                        duration: 800,
                         easing: "easeOutQuart"
                     },
 
                     plugins: {
-
                         legend: {
                             display: false
                         }
-
                     },
 
                     scales: {
-
                         y: {
-
                             beginAtZero: true,
                             max: 100,
 
@@ -217,21 +205,15 @@ document.addEventListener("DOMContentLoaded", function () {
                                 display: true,
                                 text: "Expertise Score (0–100)"
                             }
-
                         },
 
                         x: {
-
                             grid: {
                                 display: false
                             }
-
                         }
-
                     }
-
                 }
-
             }
         );
 
@@ -240,51 +222,129 @@ document.addEventListener("DOMContentLoaded", function () {
             chartCanvas.parentElement;
 
         let hasAnimated = false;
+        let chartVisible = false;
+        let chartRequestInProgress = false;
 
-        const chartObserver = new IntersectionObserver(
+        // Mengambil data angka dari database melalui PHP
+        async function updateExpertiseChart() {
 
-            function (entries) {
-
-                entries.forEach(function (entry) {
-
-                    if (
-                        entry.isIntersecting &&
-                        !hasAnimated
-                    ) {
-
-                        hasAnimated = true;
-
-                        expertiseChart.data.datasets[0].data =
-                            expertiseData.slice();
-
-                        expertiseChart.update();
-
-                    } else if (
-                        !entry.isIntersecting &&
-                        hasAnimated
-                    ) {
-
-                        hasAnimated = false;
-
-                        expertiseChart.data.datasets[0].data = [
-                            0, 0, 0, 0
-                        ];
-
-                        expertiseChart.update("none");
-
-                    }
-
-                });
-
-            },
-
-            {
-                threshold: 0.15
+            if (chartRequestInProgress) {
+                return;
             }
 
-        );
+            chartRequestInProgress = true;
 
-        chartObserver.observe(chartWrapper);
+            try {
+                const response = await fetch(
+                    "get_chart_data.php",
+                    { cache: "no-store" }
+                );
+
+                if (!response.ok) {
+                    throw new Error(
+                        "Gagal mengambil data grafik dari database."
+                    );
+                }
+
+                const data = await response.json();
+
+                if (!Array.isArray(data)) {
+                    throw new Error(
+                        "Format data grafik tidak valid."
+                    );
+                }
+
+                const labels = data.map(
+                    item => item.label
+                );
+
+                const scores = data.map(
+                    item => Number(item.score)
+                );
+
+                if (
+                    scores.some(
+                        score =>
+                            !Number.isFinite(score) ||
+                            score < 0 ||
+                            score > 100
+                    )
+                ) {
+                    throw new Error(
+                        "Nilai grafik harus berupa angka antara 0–100."
+                    );
+                }
+
+                expertiseChart.data.labels = labels;
+
+                expertiseChart.data.datasets[0].data =
+                    chartVisible && hasAnimated
+                        ? scores
+                        : scores.map(() => 0);
+
+                expertiseChart.update("none");
+
+                // Animasi saat grafik terlihat di layar
+                if (chartVisible && !hasAnimated) {
+                    hasAnimated = true;
+
+                    expertiseChart.data.datasets[0].data =
+                        scores;
+
+                    expertiseChart.update();
+                }
+
+            } catch (error) {
+                console.error(
+                    "Pembaruan grafik gagal:",
+                    error
+                );
+            } finally {
+                chartRequestInProgress = false;
+            }
+        }
+
+        // Memantau saat grafik masuk atau keluar dari layar
+        if ("IntersectionObserver" in window) {
+
+            const chartObserver = new IntersectionObserver(
+                function (entries) {
+
+                    entries.forEach(function (entry) {
+
+                        chartVisible = entry.isIntersecting;
+
+                        if (chartVisible && !hasAnimated) {
+                            updateExpertiseChart();
+                        }
+
+                        if (!chartVisible && hasAnimated) {
+                            hasAnimated = false;
+
+                            expertiseChart.data.datasets[0].data =
+                                expertiseChart.data.labels.map(
+                                    () => 0
+                                );
+
+                            expertiseChart.update("none");
+                        }
+
+                    });
+                },
+                { threshold: 0.15 }
+            );
+
+            chartObserver.observe(chartWrapper);
+
+        } else {
+            chartVisible = true;
+            updateExpertiseChart();
+        }
+
+        // Ambil data pertama kali dan perbarui setiap 5 detik
+        updateExpertiseChart();
+
+        setInterval(updateExpertiseChart, 5000);
 
     } else if (!chartCanvas) {
 
@@ -414,6 +474,60 @@ document.addEventListener("DOMContentLoaded", function () {
 
         moveToProject(0, false);
 
+    }
+
+    // ============================================
+    // CONTACT FORM - SIMPAN KE DATABASE
+    // ============================================
+    const contactForm = document.getElementById("contactForm");
+
+    if (contactForm) {
+        contactForm.addEventListener("submit", async function (event) {
+            event.preventDefault();
+
+            const status = document.getElementById("contactStatus");
+            const button = document.getElementById("sendMessageBtn");
+
+            if (!status || !button) {
+                console.error("Elemen status atau tombol Contact tidak ditemukan.");
+                return;
+            }
+
+            status.textContent = "Mengirim pesan...";
+            status.className = "mt-3 mb-0 text-secondary";
+            button.disabled = true;
+
+            try {
+                const response = await fetch("save_contact.php", {
+                    method: "POST",
+                    body: new FormData(contactForm)
+                });
+
+                const result = await response.json();
+
+                if (!response.ok || !result.success) {
+                    throw new Error(
+                        result.message || "Pesan gagal dikirim."
+                    );
+                }
+
+                status.textContent = result.message;
+                status.className = "mt-3 mb-0 text-success";
+
+                contactForm.reset();
+
+            } catch (error) {
+                console.error("Contact form error:", error);
+
+                status.textContent =
+                    error.message || "Terjadi kesalahan saat mengirim pesan.";
+
+                status.className = "mt-3 mb-0 text-danger";
+
+            } finally {
+                button.disabled = false;
+            }
+        });
     }
 
 });
